@@ -13,10 +13,11 @@ import Search from "../components/Dashboard/Search/Search";
 import TabsComponent from "../components/Dashboard/Tab/TabsComponent";
 import PaginationComponent from "../components/Dashboard/Pagination/Pagination";
 import TopButton from "../components/Common/TopButton/Topbutton";
+import { useTheme } from "../contexts/themeContext/ThemeContext"; // Use theme context
 
 // Constants in a separate file that could be imported
 const CONSTANTS = {
-  ITEMS_PER_PAGE: 10,
+  ITEMS_PER_PAGE: 12,
   API_URL: "https://api.coingecko.com/api/v3/coins/markets",
   CACHE_DURATION: 2 * 60 * 1000, // 2 minutes
   APP_VERSION: "1.0.0",
@@ -24,7 +25,6 @@ const CONSTANTS = {
     API: {
       HEADERS: {
         Accept: "application/json",
-        "User-Agent": `CryptoTracker/1.0.0`,
       },
       PARAMS: {
         vs_currency: "usd",
@@ -118,6 +118,7 @@ function useCoinData() {
 }
 
 function Dashboard() {
+  const { theme } = useTheme(); // Use theme context
   const { coins, loading, error, fetchData, lastFetched } = useCoinData();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
@@ -200,10 +201,20 @@ function Dashboard() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100">
+    <div
+      className={`min-h-screen ${
+        theme === "dark"
+          ? "bg-gray-900 text-gray-200"
+          : "bg-gray-50 text-gray-800"
+      }`}
+    >
       {/* Fixed header with proper z-index and shadow */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-md shadow-lg">
-        {/* <Header /> */}
+      <div
+        className={`fixed top-0 left-0 right-0 z-50 ${
+          theme === "dark" ? "bg-gray-900/95" : "bg-white/95"
+        } backdrop-blur-md shadow-lg`}
+      >
+        <Header />
       </div>
 
       {/* Main content with proper padding-top to account for fixed header */}
@@ -225,7 +236,11 @@ function Dashboard() {
         ) : (
           <div className="space-y-8">
             {/* Sticky search bar */}
-            <div className="sticky top-16 z-40 py-4 bg-gray-900/95 backdrop-blur-md -mx-4 px-4">
+            <div
+              className={`sticky top-16 z-40 py-4 ${
+                theme === "dark" ? "bg-gray-900/95" : "bg-white/95"
+              } backdrop-blur-md -mx-4 px-4`}
+            >
               <div className="flex justify-between items-center">
                 <Search
                   search={search}
@@ -263,7 +278,13 @@ function Dashboard() {
             </div>
 
             {/* Main content */}
-            <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700/50 shadow-lg">
+            <div
+              className={`backdrop-blur-sm rounded-2xl border shadow-lg ${
+                theme === "dark"
+                  ? "bg-gray-800/50 border-gray-700/50"
+                  : "bg-white border-gray-300"
+              }`}
+            >
               {coins.length > 0 ? (
                 <TabsComponent
                   coins={paginatedCoins}

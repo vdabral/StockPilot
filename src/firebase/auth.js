@@ -1,13 +1,13 @@
 import { auth, db } from "./firebase"; // Ensure db is imported from firebase config
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
   sendPasswordResetEmail,
   sendEmailVerification,
   updatePassword,
+  signOut, // Import signOut separately for clarity
+  signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
-  signOut, // Import signOut separately for clarity
 } from "firebase/auth";
 import { doc, setDoc, getDoc } from "firebase/firestore"; // Import getDoc to check existing users
 
@@ -42,47 +42,14 @@ export const doCreateUserWithEmailAndPassword = async (email, password) => {
 };
 
 // Sign in with email & password
-export const doSignInWithEmailAndPassword = async (email, password) => {
-  try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    return userCredential.user;
-  } catch (error) {
-    console.error("Error signing in:", error.message);
-    return { error: error.message };
-  }
+export const doSignInWithEmailAndPassword = (email, password) => {
+  return signInWithEmailAndPassword(auth, email, password);
 };
 
 // Sign in with Google
-export const doSignInWithGoogle = async () => {
-  try {
-    const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-
-    // Check if user already exists in Firestore
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
-
-    if (!userSnap.exists()) {
-      await setDoc(userRef, {
-        uid: user.uid,
-        email: user.email,
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-        provider: "google",
-        createdAt: new Date(),
-      });
-    }
-
-    return user;
-  } catch (error) {
-    console.error("Google sign-in error:", error.message);
-    return { error: error.message };
-  }
+export const doSignInWithGoogle = () => {
+  const provider = new GoogleAuthProvider();
+  return signInWithPopup(auth, provider);
 };
 
 // Sign out

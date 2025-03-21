@@ -7,11 +7,13 @@ import { AuthProvider } from "./contexts/authContext/AuthContext.jsx";
 import { ThemeProvider } from "./contexts/themeContext/ThemeContext.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <ThemeProvider>
-    <BrowserRouter>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </BrowserRouter>
-  </ThemeProvider>
+  <StrictMode>
+    <ThemeProvider>
+      <BrowserRouter>
+        <AuthProvider>
+          <App />
+        </AuthProvider>
+      </BrowserRouter>
+    </ThemeProvider>
+  </StrictMode>
 );

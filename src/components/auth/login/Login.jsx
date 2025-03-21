@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa";
 import {
@@ -19,6 +19,12 @@ const Login = () => {
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, [user, navigate]);
 
   const getFriendlyErrorMessage = (errorCode) => {
     const errorMessages = {
@@ -42,7 +48,7 @@ const Login = () => {
       } else {
         localStorage.removeItem("rememberMe");
       }
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       setErrorMessage(getFriendlyErrorMessage(error.code));
       setIsSigningIn(false);

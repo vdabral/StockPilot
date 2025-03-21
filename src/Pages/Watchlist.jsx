@@ -6,8 +6,10 @@ import Header from "../components/Common/Header/Header";
 import TabsComponent from "../components/Dashboard/Tab/TabsComponent";
 import Loader from "../components/Common/Loader/Loader";
 import { get100Coins } from "../functions/get100Coins";
+import { useTheme } from "../contexts/themeContext/ThemeContext"; // Use theme context
 
 function Watchlist() {
+  const { theme } = useTheme(); // Use theme context
   // State management
   const [state, setState] = useState({
     coins: [],
@@ -78,7 +80,13 @@ function Watchlist() {
   const EmptyState = () => (
     <div className="container mx-auto px-4 py-16">
       <div className="max-w-2xl mx-auto text-center space-y-8">
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700/50">
+        <div
+          className={`backdrop-blur-sm rounded-2xl p-8 border ${
+            theme === "dark"
+              ? "bg-gray-800/50 border-gray-700/50"
+              : "bg-white border-gray-300"
+          }`}
+        >
           <div className="space-y-4">
             <svg
               className="w-16 h-16 mx-auto text-gray-500"
@@ -127,7 +135,11 @@ function Watchlist() {
   );
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100">
+    <div
+      className={`min-h-screen ${
+        theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+      }`}
+    >
       <Header />
 
       {state.loading ? (
@@ -171,7 +183,13 @@ function Watchlist() {
             </button>
           </div>
 
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700/50">
+          <div
+            className={`backdrop-blur-sm rounded-2xl border ${
+              theme === "dark"
+                ? "bg-gray-800/50 border-gray-700/50"
+                : "bg-white border-gray-300"
+            }`}
+          >
             <TabsComponent coins={state.coins} />
           </div>
 

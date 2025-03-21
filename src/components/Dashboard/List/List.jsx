@@ -1,4 +1,4 @@
-import React, { useState, memo, useCallback } from "react";
+import React, { useState, memo, useCallback, useEffect } from "react";
 import TrendingDownRoundedIcon from "@mui/icons-material/TrendingDownRounded";
 import TrendingUpRoundedIcon from "@mui/icons-material/TrendingUpRounded";
 import { convertNumber } from "../../../functions/convertNumber";
@@ -9,6 +9,7 @@ import StarIcon from "@mui/icons-material/Star";
 import { saveItemToWatchlist } from "../../../functions/saveItemToWatchlist";
 import { removeItemToWatchlist } from "../../../functions/removeItemToWatchlist";
 import { Link } from "react-router-dom";
+import { useTheme } from "../../../contexts/themeContext/ThemeContext"; // Use theme context
 
 // Utility for consistent price formatting
 const formatPrice = (price) => {
@@ -55,6 +56,8 @@ const PriceChangeIndicator = ({ percentChange }) => {
 };
 
 const List = memo(({ coin, delay, onWatchlistChange }) => {
+  const { theme } = useTheme(); // Use theme context
+
   // Get watchlist from localStorage with proper error handling
   const getWatchlist = () => {
     try {
@@ -93,6 +96,9 @@ const List = memo(({ coin, delay, onWatchlistChange }) => {
     },
     [coin.id, isCoinAdded, onWatchlistChange]
   );
+
+  // Ensure component re-renders on theme change
+  useEffect(() => {}, [theme]);
 
   return (
     <motion.tr

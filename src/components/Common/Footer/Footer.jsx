@@ -1,19 +1,35 @@
 import React from "react";
+import { useTheme } from "../../../contexts/themeContext/ThemeContext";
 
 function Footer() {
   const currentYear = new Date().getFullYear();
+  const { theme } = useTheme(); // Use theme context
 
   return (
-    <footer className="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800">
+    <footer
+      className={`border-t ${
+        theme === "dark"
+          ? "bg-gray-900 border-gray-800"
+          : "bg-white border-gray-200"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-12">
           {/* Company Info */}
           <div className="space-y-4">
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+            <h3
+              className={`text-lg font-bold ${
+                theme === "dark" ? "text-white" : "text-gray-900"
+              }`}
+            >
               StockPilot
             </h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm">
+            <p
+              className={`text-sm ${
+                theme === "dark" ? "text-gray-400" : "text-gray-600"
+              }`}
+            >
               Advanced cryptocurrency tracking and analysis platform for modern
               investors.
             </p>
@@ -28,7 +44,11 @@ function Footer() {
                 <a
                   key={social.icon}
                   href={social.href}
-                  className="text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                  className={`transition-colors duration-200 ${
+                    theme === "dark"
+                      ? "text-gray-400 hover:text-blue-400"
+                      : "text-gray-400 hover:text-blue-600"
+                  }`}
                   aria-label={social.label}
                 >
                   {social.icon === "github" && (
@@ -78,7 +98,11 @@ function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+            <h3
+              className={`text-lg font-bold mb-4 ${
+                theme === "dark" ? "text-white" : "text-gray-900"
+              }`}
+            >
               Quick Links
             </h3>
             <ul className="space-y-2">
@@ -87,7 +111,11 @@ function Footer() {
                   <li key={item}>
                     <a
                       href="#"
-                      className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                      className={`transition-colors duration-200 ${
+                        theme === "dark"
+                          ? "text-gray-400 hover:text-blue-400"
+                          : "text-gray-600 hover:text-blue-600"
+                      }`}
                     >
                       {item}
                     </a>
@@ -99,7 +127,11 @@ function Footer() {
 
           {/* Resources */}
           <div>
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+            <h3
+              className={`text-lg font-bold mb-4 ${
+                theme === "dark" ? "text-white" : "text-gray-900"
+              }`}
+            >
               Resources
             </h3>
             <ul className="space-y-2">
@@ -113,7 +145,11 @@ function Footer() {
                 <li key={item}>
                   <a
                     href="#"
-                    className="text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                    className={`transition-colors duration-200 ${
+                      theme === "dark"
+                        ? "text-gray-400 hover:text-blue-400"
+                        : "text-gray-600 hover:text-blue-600"
+                    }`}
                   >
                     {item}
                   </a>
@@ -124,7 +160,11 @@ function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
+            <h3
+              className={`text-lg font-bold mb-4 ${
+                theme === "dark" ? "text-white" : "text-gray-900"
+              }`}
+            >
               Stay Updated
             </h3>
             <form className="space-y-3">
@@ -136,7 +176,11 @@ function Footer() {
                   type="email"
                   id="email"
                   placeholder="Enter your email"
-                  className="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 text-gray-900 dark:text-gray-100"
+                  className={`w-full px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 ${
+                    theme === "dark"
+                      ? "bg-gray-800 border-gray-700 text-gray-100 focus:ring-blue-400"
+                      : "bg-gray-100 border-gray-200 text-gray-900 focus:ring-blue-500"
+                  }`}
                 />
               </div>
               <button
@@ -150,27 +194,47 @@ function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-200 dark:border-gray-800 py-6">
+        <div
+          className={`border-t py-6 ${
+            theme === "dark" ? "border-gray-800" : "border-gray-200"
+          }`}
+        >
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-sm text-gray-600 dark:text-gray-400">
+            <div
+              className={`text-sm ${
+                theme === "dark" ? "text-gray-400" : "text-gray-600"
+              }`}
+            >
               © {currentYear} StockPilot. All rights reserved.
             </div>
             <div className="flex space-x-6">
               <a
                 href="#"
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                className={`text-sm transition-colors duration-200 ${
+                  theme === "dark"
+                    ? "text-gray-400 hover:text-blue-400"
+                    : "text-gray-600 hover:text-blue-600"
+                }`}
               >
                 Privacy Policy
               </a>
               <a
                 href="#"
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                className={`text-sm transition-colors duration-200 ${
+                  theme === "dark"
+                    ? "text-gray-400 hover:text-blue-400"
+                    : "text-gray-600 hover:text-blue-600"
+                }`}
               >
                 Terms of Service
               </a>
               <a
                 href="#"
-                className="text-sm text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                className={`text-sm transition-colors duration-200 ${
+                  theme === "dark"
+                    ? "text-gray-400 hover:text-blue-400"
+                    : "text-gray-600 hover:text-blue-600"
+                }`}
               >
                 Cookie Policy
               </a>

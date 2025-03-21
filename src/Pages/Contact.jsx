@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { useTheme } from "../contexts/themeContext/ThemeContext"; // Use theme context
 
 function Contact() {
+  const { theme } = useTheme(); // Use theme context
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -158,7 +160,11 @@ function Contact() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 pt-20 pb-20">
+    <div
+      className={`min-h-screen bg-gradient-to-b from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 pt-20 pb-20 ${
+        theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+      }`}
+    >
       {/* Time Display with Pulse Animation */}
       <div className="text-center mb-8 relative">
         <div className="inline-block px-6 py-3 rounded-full bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm shadow-md border border-blue-100 dark:border-gray-700">

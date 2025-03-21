@@ -5,7 +5,7 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
-import { createTheme, ThemeProvider } from "@mui/material";
+import { createTheme, ThemeProvider as MuiThemeProvider } from "@mui/material";
 import { Toaster } from "react-hot-toast";
 import Main from "./components/LandingPage/MainComponent/Main";
 import Header from "./components/Common/Header/Header";
@@ -20,21 +20,23 @@ import "./App.css";
 import ProtectedRoute from "./components/PrivateRoute/PrivateRoute";
 import Register from "./components/auth/register/Register";
 import Login from "./components/auth/login/Login";
-import { useAuth } from "./contexts/authContext/AuthContext"; // Import Auth Context
+import { AuthProvider, useAuth } from "./contexts/authContext/AuthContext"; // Import Auth Context
+import { ThemeProvider, useTheme } from "./contexts/themeContext/ThemeContext"; // Import Theme Context
 
 function App() {
   const { user } = useAuth(); // Get authentication state
+  const { theme } = useTheme(); // Get theme state
 
   // Theme configuration
-  const theme = createTheme({
+  const muiTheme = createTheme({
     palette: {
       primary: {
         main: "#3a80e9",
       },
-      mode: "dark",
+      mode: theme,
       background: {
-        default: "#111827",
-        paper: "#1f2937",
+        default: theme === "dark" ? "#111827" : "#ffffff",
+        paper: theme === "dark" ? "#1f2937" : "#f5f5f5",
       },
     },
     typography: {
@@ -88,56 +90,63 @@ function App() {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <div className="app min-h-screen bg-gray-900 text-gray-100">
-        {/* Custom cursor elements */}
-        <div className="cursor hidden md:block" id="cursor" />
-        <div className="cursor-pointer hidden md:block" id="cursor-pointer" />
-
-        {/* Toast notifications */}
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            duration: 3000,
-            style: {
-              background: "#1f2937",
-              color: "#fff",
-            },
-          }}
-        />
-
-        <Header />
-        <main className="min-h-[calc(100vh-4rem)]">
-          <Routes>
-            <Route path="/" element={<Main />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/register" element={<Register />} />
-
-            {/* Redirect authenticated users away from Login */}
-            <Route
-              path="/login"
-              element={user ? <Navigate to="/dashboard" /> : <Login />}
+    <AuthProvider>
+      <ThemeProvider>
+        <MuiThemeProvider theme={muiTheme}>
+          <div className="app min-h-screen bg-gray-900 text-gray-100">
+            {/* Custom cursor elements */}
+            <div className="cursor hidden md:block" id="cursor" />
+            <div
+              className="cursor-pointer hidden md:block"
+              id="cursor-pointer"
             />
 
-            {/* Protected Routes */}
-            <Route path="/dashboard" element={<ProtectedRoute />}>
-              <Route path="" element={<Dashboard />} />
-            </Route>
-            <Route path="/compare" element={<ProtectedRoute />}>
-              <Route path="" element={<Compare />} />
-            </Route>
-            <Route path="/watchlist" element={<ProtectedRoute />}>
-              <Route path="" element={<Watchlist />} />
-            </Route>
-            <Route path="/coin/:id" element={<ProtectedRoute />}>
-              <Route path="" element={<Coin />} />
-            </Route>
-          </Routes>
-        </main>
-        <Footer />
-      </div>
-    </ThemeProvider>
+            {/* Toast notifications */}
+            <Toaster
+              position="top-right"
+              toastOptions={{
+                duration: 3000,
+                style: {
+                  background: "#1f2937",
+                  color: "#fff",
+                },
+              }}
+            />
+
+            <Header />
+            <main className="min-h-[calc(100vh-4rem)]">
+              <Routes>
+                <Route path="/" element={<Main />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/register" element={<Register />} />
+
+                {/* Redirect authenticated users away from Login */}
+                <Route
+                  path="/login"
+                  element={user ? <Navigate to="/dashboard" /> : <Login />}
+                />
+
+                {/* Protected Routes */}
+                <Route path="/dashboard" element={<ProtectedRoute />}>
+                  <Route path="" element={<Dashboard />} />
+                </Route>
+                <Route path="/compare" element={<ProtectedRoute />}>
+                  <Route path="" element={<Compare />} />
+                </Route>
+                <Route path="/watchlist" element={<ProtectedRoute />}>
+                  <Route path="" element={<Watchlist />} />
+                </Route>
+                <Route path="/coin/:id" element={<ProtectedRoute />}>
+                  <Route path="" element={<Coin />} />
+                </Route>
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </MuiThemeProvider>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 

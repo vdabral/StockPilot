@@ -1,19 +1,25 @@
 import React from "react";
 import Pagination from "@mui/material/Pagination";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useTheme } from "../../../contexts/themeContext/ThemeContext"; // Use theme context
 
 export default function PaginationControlled({ page, handlePageChange }) {
+  const { theme } = useTheme(); // Use theme context
+
   // Create a custom theme for the Pagination component
-  const theme = createTheme({
+  const muiTheme = createTheme({
     components: {
       MuiPagination: {
         styleOverrides: {
           root: {
             "& .MuiPaginationItem-root": {
-              color: "white",
-              borderColor: "#374151", // dark:border-gray-700
+              color: theme === "dark" ? "white" : "black",
+              borderColor: theme === "dark" ? "#374151" : "#E5E7EB", // dark:border-gray-700 or light:border-gray-300
               "&:hover": {
-                backgroundColor: "rgba(59, 130, 246, 0.1)", // hover:bg-blue-500/10
+                backgroundColor:
+                  theme === "dark"
+                    ? "rgba(59, 130, 246, 0.1)"
+                    : "rgba(59, 130, 246, 0.1)", // hover:bg-blue-500/10
               },
               "&.Mui-selected": {
                 backgroundColor: "#3B82F6", // bg-blue-500
@@ -30,9 +36,15 @@ export default function PaginationControlled({ page, handlePageChange }) {
   });
 
   return (
-    <div className="flex justify-center items-center py-8 px-4 bg-gradient-to-b from-gray-900 to-gray-800">
-      <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl p-4 shadow-lg border border-gray-700/50">
-        <ThemeProvider theme={theme}>
+    <div className="flex justify-center items-center py-8 px-4">
+      <div
+        className={`backdrop-blur-sm rounded-xl p-4 shadow-lg ${
+          theme === "dark"
+            ? "bg-gray-800/50 border-gray-700/50"
+            : "bg-white border-gray-300"
+        }`}
+      >
+        <ThemeProvider theme={muiTheme}>
           <Pagination
             count={10}
             page={page}

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import iphone from "../../../assets/iphone.png";
 import { Link } from "react-router-dom";
+import { useTheme } from "../../../contexts/themeContext/ThemeContext"; // Use theme context
 
 function Main() {
   const [isVisible, setIsVisible] = useState(false);
+  const { theme } = useTheme(); // Use theme context
 
   useEffect(() => {
     // Trigger entrance animations
@@ -29,8 +31,14 @@ function Main() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 pt-20 overflow-hidden">
-      <div className="text-gray-800 dark:text-gray-200">
+    <div
+      className={`min-h-screen pt-20 overflow-hidden ${
+        theme === "dark"
+          ? "bg-gradient-to-b from-gray-900 to-gray-800"
+          : "bg-gradient-to-b from-gray-50 to-gray-100" // Lighter gradient
+      }`}
+    >
+      <div className={`text-${theme === "dark" ? "gray-200" : "gray-800"}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Hero Section */}
           <div className="container mx-auto">
@@ -56,7 +64,11 @@ function Main() {
                   </h1>
                 </div>
 
-                <p className="text-gray-600 dark:text-gray-300 text-lg md:text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                <p
+                  className={`text-${
+                    theme === "dark" ? "gray-300" : "gray-600"
+                  } text-lg md:text-xl max-w-2xl mx-auto lg:mx-0 leading-relaxed`}
+                >
                   Stay ahead of the market with real-time cryptocurrency
                   tracking, comprehensive analytics, and intelligent insights
                   tailored for you.
@@ -112,7 +124,11 @@ function Main() {
             ].map((stat, index) => (
               <div
                 key={index}
-                className="text-center p-6 bg-white/90 dark:bg-gray-800/90 backdrop-blur-md rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group relative overflow-hidden"
+                className={`text-center p-6 ${
+                  theme === "dark"
+                    ? "bg-gray-800/90 hover:bg-gray-700/90"
+                    : "bg-white hover:bg-gray-50"
+                } backdrop-blur-md rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 group relative overflow-hidden`}
               >
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-2xl blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
 
@@ -123,7 +139,11 @@ function Main() {
                   <div className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-800 dark:from-blue-400 dark:via-indigo-400 dark:to-blue-600 bg-clip-text text-transparent group-hover:scale-110 transition-transform duration-300">
                     {stat.value}
                   </div>
-                  <div className="text-gray-600 dark:text-gray-300 mt-2 text-lg">
+                  <div
+                    className={`text-${
+                      theme === "dark" ? "gray-300" : "gray-600"
+                    } mt-2 text-lg`}
+                  >
                     {stat.label}
                   </div>
                 </div>
@@ -246,7 +266,11 @@ function Main() {
                 <div className="text-5xl text-blue-500 dark:text-blue-400 mb-6">
                   ❝
                 </div>
-                <blockquote className="text-xl md:text-2xl font-medium text-gray-700 dark:text-gray-300 mb-8">
+                <blockquote
+                  className={`text-xl md:text-2xl font-medium text-${
+                    theme === "dark" ? "gray-300" : "gray-700"
+                  } mb-8`}
+                >
                   StockPilot revolutionized how I monitor my crypto investments.
                   The real-time tracking and analysis tools have helped me make
                   smarter decisions and maximize my returns.
@@ -256,10 +280,18 @@ function Main() {
                     AK
                   </div>
                   <div>
-                    <div className="font-bold text-gray-800 dark:text-gray-200">
+                    <div
+                      className={`font-bold text-${
+                        theme === "dark" ? "gray-200" : "gray-800"
+                      }`}
+                    >
                       Alex Kim
                     </div>
-                    <div className="text-gray-600 dark:text-gray-400">
+                    <div
+                      className={`text-${
+                        theme === "dark" ? "gray-400" : "gray-600"
+                      }`}
+                    >
                       Crypto Investor
                     </div>
                   </div>
@@ -270,7 +302,8 @@ function Main() {
         </div>
 
         {/* CSS for animations */}
-        <style jsx>{`
+        <style>
+          {`
           @keyframes float-slow {
             0%,
             100% {
@@ -320,7 +353,8 @@ function Main() {
             transform: translateY(0);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
           }
-        `}</style>
+        `}
+        </style>
       </div>
     </div>
   );

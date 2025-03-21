@@ -1,54 +1,31 @@
-import React, { useContext, useState, useEffect } from "react";
-import { auth } from "../../firebase/firebase"; // Ensure firebase.js exports `auth`
-import { GoogleAuthProvider, onAuthStateChanged } from "firebase/auth";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { auth } from "../../firebase/firebase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
-const AuthContext = React.createContext();
+const AuthContext = createContext();
 
-export function useAuth() {
-  return useContext(AuthContext);
-}
-
-export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(null);
-  const [isEmailUser, setIsEmailUser] = useState(false);
-  const [isGoogleUser, setIsGoogleUser] = useState(false);
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setCurrentUser(user);
-
-        const isEmail = user.providerData.some(
-          (provider) => provider.providerId === "password"
-        );
-        const isGoogle = user.providerData.some(
-          (provider) => provider.providerId === GoogleAuthProvider.PROVIDER_ID
-        );
-
-        setIsEmailUser(isEmail);
-        setIsGoogleUser(isGoogle);
-      } else {
-        setCurrentUser(null);
-        setIsEmailUser(false);
-        setIsGoogleUser(false);
-      }
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
       setLoading(false);
     });
 
-    return unsubscribe; // Proper cleanup
+    return () => unsubscribe();
   }, []);
 
-  const value = {
-    currentUser,
-    isEmailUser,
-    isGoogleUser,
-    userLoggedIn: !!currentUser, // Deriving from currentUser instead of using extra state
+  const logout = async () => {
+    await signOut(auth);
   };
 
   return (
-    <AuthContext.Provider value={value}>
-      {!loading && children} {/* Render children only after loading */}
+    <AuthContext.Provider value={{ user, loading, logout }}>
+      {children}
     </AuthContext.Provider>
   );
-}
+};
+
+export const useAuth = () => useContext(AuthContext);

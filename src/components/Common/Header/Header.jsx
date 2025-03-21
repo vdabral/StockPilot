@@ -11,7 +11,6 @@ import { useTheme } from "../../../contexts/themeContext/ThemeContext";
 function Header() {
   const { theme, toggleTheme } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const { user } = useAuth(); // Get user state from AuthContext
@@ -27,13 +26,6 @@ function Header() {
   ];
 
   useEffect(() => {
-    const darkModePreference = localStorage.getItem("darkMode");
-    setIsDarkMode(
-      darkModePreference
-        ? JSON.parse(darkModePreference)
-        : window.matchMedia("(prefers-color-scheme: dark)").matches
-    );
-
     let ticking = false;
     const handleScroll = () => {
       if (!ticking) {
@@ -53,13 +45,6 @@ function Header() {
     setIsOpen(false);
   }, [location.pathname]);
 
-  const toggleDarkMode = () => {
-    toggleTheme();
-    setIsDarkMode(!isDarkMode);
-    localStorage.setItem("darkMode", JSON.stringify(!isDarkMode));
-    document.documentElement.classList.toggle("dark");
-  };
-
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -78,7 +63,7 @@ function Header() {
           transition-all duration-300
           ${scrolled ? "shadow-lg backdrop-blur-lg" : ""}
           ${
-            isDarkMode
+            theme === "dark"
               ? "bg-gray-900/95 border-gray-800"
               : "bg-white/95 border-gray-200"
           }
@@ -90,7 +75,7 @@ function Header() {
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-3 group">
               <motion.img
-                src={isDarkMode ? logobg : logowhite}
+                src={theme === "dark" ? logobg : logowhite}
                 alt="StockPilot Logo"
                 className="h-10 w-auto"
                 whileHover={{ scale: 1.1 }}
@@ -114,7 +99,7 @@ function Header() {
                     to={path}
                     className={`relative px-4 py-2 text-sm font-medium rounded-md transition-all duration-200
                       ${
-                        isDarkMode
+                        theme === "dark"
                           ? "text-gray-300 hover:text-white"
                           : "text-gray-700 hover:text-gray-900"
                       }
@@ -143,10 +128,10 @@ function Header() {
             <div className="flex items-center space-x-4">
               {/* Dark Mode Toggle */}
               <motion.button
-                onClick={toggleDarkMode}
+                onClick={toggleTheme}
                 className={`p-2 rounded-full
                   ${
-                    isDarkMode
+                    theme === "dark"
                       ? "bg-gray-800 text-yellow-300"
                       : "bg-gray-100 text-gray-700"
                   }
@@ -159,9 +144,9 @@ function Header() {
                   fill="currentColor"
                   viewBox="0 0 20 20"
                   initial={false}
-                  animate={{ rotate: isDarkMode ? 180 : 0 }}
+                  animate={{ rotate: theme === "dark" ? 180 : 0 }}
                 >
-                  {isDarkMode ? (
+                  {theme === "dark" ? (
                     <path
                       fillRule="evenodd"
                       d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0z"

@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Header from "../components/Common/Header/Header";
 import { Link } from "react-router-dom";
+import { useTheme } from "../contexts/themeContext/ThemeContext"; // Use theme context
 
 function About() {
+  const { theme } = useTheme(); // Use theme context
   const [statistics, setStatistics] = useState({
     users: 0,
     marketsCovered: 0,
@@ -73,7 +75,11 @@ function About() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 pt-20">
+    <div
+      className={`min-h-screen py-12 ${
+        theme === "dark" ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Hero Section with Parallax Effect */}
         <div className="relative overflow-hidden mb-24 rounded-3xl">

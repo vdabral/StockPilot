@@ -3,7 +3,7 @@ import { toast } from "react-hot-toast";
 import PropTypes from "prop-types";
 import Info from "../components/CoinPage/Info/Info";
 import LineChart from "../components/CoinPage/LineChart/LineChart";
-import ToggleComponents from "../components/CoinPage/ToggleComponets/ToggleComponents";
+import ToggleComponents from "../components/CoinPage/ToggleComponents/ToggleComponents";
 import Header from "../components/Common/Header/Header";
 import Loader from "../components/Common/Loader/Loader";
 import SelectCoins from "../components/ComparePage/SelectCoins/SelectCoins";
@@ -13,8 +13,10 @@ import { getCoinData } from "../functions/getCoinData";
 import { getPrices } from "../functions/getPrices";
 import { settingChartData } from "../functions/settingChartData";
 import { settingCoinObject } from "../functions/settingCoinObject";
+import { useTheme } from "../contexts/themeContext/ThemeContext";
 
 function Compare() {
+  const { theme } = useTheme();
   const [state, setState] = useState({
     allCoins: [],
     loading: true,
@@ -154,17 +156,32 @@ function Compare() {
 
   if (state.loading || !state.coin1Data?.id || !state.coin2Data?.id) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900">
+      <div
+        className={`min-h-screen flex items-center justify-center ${
+          theme === "dark" ? "bg-gray-900" : "bg-gray-50"
+        }`}
+      >
         <Loader />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-gray-100">
+    <div
+      className={`min-h-screen ${
+        theme === "dark"
+          ? "bg-gray-900 text-gray-100"
+          : "bg-gray-50 text-gray-900"
+      }`}
+    >
+      <Header />
       <div className="container mx-auto px-4 py-8 space-y-8">
         {/* Select Coins */}
-        <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
+        <div
+          className={`p-6 rounded-lg shadow-lg ${
+            theme === "dark" ? "bg-gray-800/50" : "bg-white"
+          }`}
+        >
           <SelectCoins
             allCoins={state.allCoins}
             crypto1={state.crypto1}
@@ -177,16 +194,28 @@ function Compare() {
 
         {/* Coin List */}
         <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
+          <div
+            className={`p-6 rounded-lg shadow-lg ${
+              theme === "dark" ? "bg-gray-800/50" : "bg-white"
+            }`}
+          >
             <List coin={state.coin1Data} />
           </div>
-          <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
+          <div
+            className={`p-6 rounded-lg shadow-lg ${
+              theme === "dark" ? "bg-gray-800/50" : "bg-white"
+            }`}
+          >
             <List coin={state.coin2Data} />
           </div>
         </div>
 
         {/* Chart Section */}
-        <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
+        <div
+          className={`p-6 rounded-lg shadow-lg ${
+            theme === "dark" ? "bg-gray-800/50" : "bg-white"
+          }`}
+        >
           <ToggleComponents
             priceType={state.priceType}
             handlePriceTypeChange={handlePriceTypeChange}
@@ -198,10 +227,18 @@ function Compare() {
 
         {/* Coin Info */}
         <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
+          <div
+            className={`p-6 rounded-lg shadow-lg ${
+              theme === "dark" ? "bg-gray-800/50" : "bg-white"
+            }`}
+          >
             <Info title={state.coin1Data.name} desc={state.coin1Data.desc} />
           </div>
-          <div className="bg-gray-800/50 p-6 rounded-lg shadow-lg">
+          <div
+            className={`p-6 rounded-lg shadow-lg ${
+              theme === "dark" ? "bg-gray-800/50" : "bg-white"
+            }`}
+          >
             <Info title={state.coin2Data.name} desc={state.coin2Data.desc} />
           </div>
         </div>

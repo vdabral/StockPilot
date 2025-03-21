@@ -7,6 +7,8 @@ import StarIcon from "@mui/icons-material/Star";
 import { saveItemToWatchlist } from "../../../functions/saveItemToWatchlist";
 import { removeItemToWatchlist } from "../../../functions/removeItemToWatchlist";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+import { useTheme } from "../../../contexts/themeContext/ThemeContext";
 
 // Format currency with proper formatting and handling edge cases
 const formatCurrency = (value, maximumFractionDigits = 2) => {
@@ -31,6 +33,8 @@ const formatNumber = (value) => {
 };
 
 const Grid = memo(({ coin, delay, onWatchlistChange }) => {
+  const { theme } = useTheme(); // Use theme context
+
   // Get watchlist from localStorage with proper error handling
   const getWatchlist = () => {
     try {
@@ -87,7 +91,9 @@ const Grid = memo(({ coin, delay, onWatchlistChange }) => {
       aria-label={`View details for ${coin.name}`}
     >
       <motion.div
-        className={`p-4 bg-white dark:bg-gray-800 rounded-2xl border-2 transition-all duration-300 cursor-pointer hover:shadow-lg ${getBorderColorClass()}`}
+        className={`p-4 rounded-2xl border-2 transition-all duration-300 cursor-pointer hover:shadow-lg ${getBorderColorClass()} ${
+          theme === "dark" ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+        }`}
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-50px" }}
@@ -202,6 +208,23 @@ const Grid = memo(({ coin, delay, onWatchlistChange }) => {
     </Link>
   );
 });
+
+Grid.propTypes = {
+  coin: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    symbol: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    current_price: PropTypes.number.isRequired,
+    price_change_percentage_24h: PropTypes.number,
+    total_volume: PropTypes.number.isRequired,
+    market_cap: PropTypes.number.isRequired,
+    ath: PropTypes.number,
+    market_cap_rank: PropTypes.number,
+  }).isRequired,
+  delay: PropTypes.number,
+  onWatchlistChange: PropTypes.func,
+};
 
 // Add display name for better debugging
 Grid.displayName = "CoinGrid";
