@@ -4,7 +4,7 @@
 [StockPilot Live](https://stockpilotcrypto.netlify.app/)
 
 ## GitHub Repository
-[StockPilot Repository]((https://github.com/vdabral/StockPilot/tree/main))
+[StockPilot Repository](https://github.com/vdabral/StockPilot/tree/main)
 
 ## Features
 
