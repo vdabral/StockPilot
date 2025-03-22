@@ -1,7 +1,7 @@
 # StockPilot - Cryptocurrency Analysis Platform
 
 ## Live Demo
-[StockPilot Live](https://stockpilot-f1de6.web.app/)
+[StockPilot Live]([https://stockpilotcrypto.netlify.app/])
 
 ## GitHub Repository
 [StockPilot Repository](https://github.com/yourusername/stockpilot)
