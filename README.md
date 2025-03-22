@@ -1,12 +1,107 @@
-# React + Vite
+# StockPilot - Cryptocurrency Analysis Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Live Demo
+[StockPilot Live](https://stockpilot-f1de6.web.app/)
 
-Currently, two official plugins are available:
+## GitHub Repository
+[StockPilot Repository](https://github.com/yourusername/stockpilot)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Features
 
-## Expanding the ESLint configuration
+### Core Features
+- 🌗 Dark/Light Theme Support
+- 📊 Real-time Cryptocurrency Data
+- 📈 Interactive Price Charts
+- 🔄 Live Price Updates
+- 📱 Responsive Design
+- 🔒 User Authentication
+- ⭐ Watchlist Functionality
+- 🔍 Advanced Search & Filtering
+- 📊 Cryptocurrency Comparison Tool
+- 📱 Mobile-First Design
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Dashboard Features
+- Market Overview
+- Top Gainers & Losers
+- Price Alerts
+- Portfolio Tracking
+- Market Cap Rankings
+- 24h Volume Analysis
+- Historical Data Charts
+
+### Compare Features
+- Side-by-side Comparison
+- Multiple Timeframe Analysis
+- Price Correlation
+- Volume Comparison
+- Market Metrics Comparison
+- Quick Pair Selection
+
+### Technical Features
+- Real-time Data Updates
+- Advanced Charting Library
+- Caching Implementation
+- Error Handling
+- Loading States
+- Responsive UI
+- Protected Routes
+- Form Validation
+
+## Technologies Used
+
+### Frontend
+- React.js
+- TailwindCSS
+- Material-UI (MUI)
+- Chart.js
+- Framer Motion
+- React Router DOM
+- React Hot Toast
+
+### State Management & Authentication
+- Context API
+- Firebase Authentication
+- Local Storage
+
+### Backend & APIs
+- Firebase
+- CoinGecko API
+- Custom Express Proxy Server
+
+### Development Tools
+- Vite
+- ESLint
+- Prettier
+- Git
+- Firebase CLI
+
+## Installation & Setup
+
+1. Clone the repository
+```bash
+git clone https://github.com/yourusername/stockpilot.git
+cd stockpilot
+```
+
+2. Install dependencies
+```bash
+npm install
+```
+
+3. Set up environment variables
+Create a `.env` file in the root directory and add:
+```env
+REACT_APP_FIREBASE_API_KEY=your_api_key
+REACT_APP_FIREBASE_AUTH_DOMAIN=your_auth_domain
+REACT_APP_FIREBASE_PROJECT_ID=your_project_id
+REACT_APP_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+REACT_APP_FIREBASE_APP_ID=your_app_id
+```
+
+4. Start the development server
+```bash
+npm run dev
+```
+
+
